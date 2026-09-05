@@ -1,24 +1,27 @@
-name: Binance Square Auto Poster
+name: Binance Square 8X Daily Auto Poster
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    # 8 automated slots every 3 hours (UTC)
+    - cron: '0 0 * * *'
+    - cron: '0 3 * * *'
     - cron: '0 6 * * *'
-    - cron: '0 10 * * *'
-    - cron: '0 14 * * *'
+    - cron: '0 9 * * *'
+    - cron: '0 12 * * *'
+    - cron: '0 15 * * *'
     - cron: '0 18 * * *'
-    - cron: '0 22 * * *'
+    - cron: '0 21 * * *'
   workflow_dispatch:
 
 jobs:
-  post-to-square:
+  publish-slot:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@4
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@5
         with:
           python-version: '3.11'
 
@@ -27,9 +30,9 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Execute poster script
+      - name: Run Intelligent Multi-Topic Poster
         env:
           BINANCE_SQUARE_API_KEY: ${{ secrets.BINANCE_SQUARE_API_KEY }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python bot.py
